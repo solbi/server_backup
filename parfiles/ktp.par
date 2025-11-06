@@ -1,0 +1,6 @@
+USERID=system/ey_ktp!@ktp
+DIRECTORY=BACKUP_DIR_KTP
+DUMPFILE=ktp_#DATE#.dmp
+SCHEMAS=ktp,sms
+ENCRYPTION_PASSWORD=ktp@xxxxx
+LOGFILE=ktp_#DATE#.log

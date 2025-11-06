@@ -1,0 +1,7 @@
+* crontab 
+# Oracle DB backup
+0 3 * * * /root/oracle_backup/oracle_backup.sh
+
+* shell files
+root-oracle_backup.sh: /root/oracle_backup/oracle_backup.sh
+oracle-oracle_backup.sh: /datadisk1/oracle/oracle_backup/oracle_backup.sh
