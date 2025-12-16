@@ -51,19 +51,20 @@ for target_dir in "${target_dirs[@]}"; do
         for month in $months_to_clean; do
             echo "  Processing old month: $month"
             
-            # 해당 월의 파일들을 날짜순으로 정렬하여 조회
-            # 파일명이 *_YYYYMM... 형식이므로 이름순 정렬이 곧 날짜순 정렬임
-            files_in_month=$(ls $target_dir/*_${month}* 2>/dev/null | sort)
+            # 해당 월의 백업 파일들로부터 고유한 timestamp(YYYYMMDD-HHMM) 추출
+            # 파일명 가정: *_YYYYMMDD-HHMM.* 
+            # grep으로 날짜 패턴 추출 -> sort -u로 중복 제거하여 타임스탬프 목록 확보
+            timestamps=$(ls $target_dir/*_${month}* 2>/dev/null | grep -oE '[0-9]{8}-[0-9]{4}' | sort -u)
             
-            count=0
-            for file in $files_in_month; do
-                if [ $count -eq 0 ]; then
-                    echo "    [KEEP] $file (First backup of the month)"
+            is_first=true
+            for ts in $timestamps; do
+                if [ "$is_first" = true ]; then
+                    echo "    [KEEP] Backup set for $ts (Keeping both .dmp and .log)"
+                    is_first=false
                 else
-                    echo "    [DELETE] $file"
-                    rm -f "$file"
+                    echo "    [DELETE] Backup set for $ts"
+                    rm -f $target_dir/*_${ts}.*
                 fi
-                count=$((count + 1))
             done
         done
     else
