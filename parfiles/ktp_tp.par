@@ -1,0 +1,6 @@
+USERID=system/ey_ktp!@ktp
+DIRECTORY=BACKUP_DIR_KRTAX
+DUMPFILE=ktp_tp_#DATE#.dmp
+SCHEMAS=ktp_tp
+ENCRYPTION_PASSWORD=ktp@1234!
+LOGFILE=ktp_tp_#DATE#.log

@@ -7,6 +7,7 @@ backup_dir_base=/datadisk5/oracle_backup
 backup_dir_krtax=$backup_dir_base/krtax
 backup_dir_ktp=$backup_dir_base/ktp
 backup_dir_krtax_log=$backup_dir_base/krtax_log
+backup_dir_ktp_tp=$backup_dir_base/ktp_tp
 
 # Oracle 백업
 su - oracle -c /datadisk1/oracle/oracle_backup/oracle_backup.sh
@@ -16,6 +17,7 @@ su - oracle -c /datadisk1/oracle/oracle_backup/oracle_backup.sh
 rsync -av $backup_dir_krtax/krtax_$sysdate.* /bak_stg/db_backup/krtax/
 rsync -av $backup_dir_ktp/ktp_$sysdate.* /bak_stg/db_backup/ktp/
 rsync -av $backup_dir_krtax_log/krtax_log_$sysdate.* /bak_stg/db_backup/krtax_log/
+rsync -av $backup_dir_ktp_tp/ktp_tp_$sysdate.* /bak_stg/db_backup/ktp_tp/
 
 # ------------------------------------------------------------------------------
 # 백업 파일 정리 로직 (Retention Policy)
@@ -28,7 +30,7 @@ current_month=$(date +%Y%m)
 last_month=$(date -d "1 month ago" +%Y%m)
 
 # 정리 대상 디렉토리 목록
-target_dirs=("/bak_stg/db_backup/krtax" "/bak_stg/db_backup/ktp" "/bak_stg/db_backup/krtax_log")
+target_dirs=("/bak_stg/db_backup/krtax" "/bak_stg/db_backup/ktp" "/bak_stg/db_backup/krtax_log" "/bak_stg/db_backup/ktp_tp")
 
 for target_dir in "${target_dirs[@]}"; do
     if [ -d "$target_dir" ]; then
